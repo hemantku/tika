@@ -76,9 +76,9 @@
 
     <!-- Upstream parser libraries -->
     <dependency>
-      <groupId>edu.ucar</groupId>
-      <artifactId>netcdf</artifactId>
-      <version>4.2.20</version>
+        <groupId>edu.ucar</groupId>
+        <artifactId>netcdf4</artifactId>
+        <version>4.5.3</version>
     </dependency>
     <dependency>
       <groupId>net.sourceforge.jmatio</groupId>

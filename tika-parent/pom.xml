@@ -49,7 +49,20 @@
     <url>https://issues.apache.org/jira/browse/TIKA</url>
   </issueManagement>
 
-  <mailingLists>
+  <repositories>
+     <repository>
+        <id>unidata-releases</id>
+        <url>http://artifacts.unidata.ucar.edu/content/repositories/unidata-releases/</url>
+        <name>Unidata Releases Repo</name>
+        <snapshots>
+          <enabled>true</enabled>
+        </snapshots>
+        <releases>
+          <enabled>true</enabled>
+        </releases>
+      </repository>
+    </repositories>
+   <mailingLists>
     <mailingList>
       <name>Development mailing list</name>
       <subscribe>dev-subscribe@tika.apache.org</subscribe>
