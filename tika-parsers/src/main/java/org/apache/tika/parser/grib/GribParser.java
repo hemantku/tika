@@ -23,7 +23,10 @@ import java.io.File;
 import java.util.Collections;
 import java.util.Set;
 import java.util.List;
+
 import org.apache.tika.exception.TikaException;
+import org.apache.tika.io.TemporaryResources;
+import org.apache.tika.io.TikaInputStream;
 import org.apache.tika.metadata.Metadata;
 import org.apache.tika.metadata.Property;
 import org.apache.tika.metadata.TikaCoreProperties;
@@ -64,8 +67,9 @@ public class GribParser extends AbstractParser {
         metadata.set(Metadata.CONTENT_TYPE, GRIB_MIME_TYPE);
     
         //Get grib2 file name from metadata 
-        
-        File gribFile = new File(metadata.get(Metadata.RESOURCE_NAME_KEY));
+        TikaInputStream tis = TikaInputStream.get(stream, new TemporaryResources());
+        File gribFile = tis.getFile(); 
+       
         
         try {
             NetcdfFile ncFile = NetcdfDataset.openFile(gribFile.getAbsolutePath(), null);            
@@ -117,7 +121,7 @@ public class GribParser extends AbstractParser {
             xhtml.endDocument();
              
             } catch (IOException e) {
-            throw new TikaException("NetCDF parse error", e);
+            throw new TikaException("Grib parse error", e);
             } 
         }
         

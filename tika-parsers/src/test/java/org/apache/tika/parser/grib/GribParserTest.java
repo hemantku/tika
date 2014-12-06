@@ -17,7 +17,7 @@
  
 package org.apache.tika.parser.grib;
  
- //JDK imports
+//JDK imports
 import static org.junit.Assert.*;
 import java.io.InputStream;
 
@@ -28,7 +28,10 @@ import org.apache.tika.parser.Parser;
 import org.apache.tika.sax.BodyContentHandler;
 import org.junit.Test;
 import org.xml.sax.ContentHandler;
-import java.io.File;
+
+/**
+ * Test cases to exercise the {@link org.apache.tika.parser.grib.GribParser}.
+ */
 
  public class GribParserTest {
         
@@ -38,20 +41,14 @@ import java.io.File;
         Parser parser = new GribParser();
         Metadata metadata = new Metadata();
         ContentHandler handler = new BodyContentHandler();
-        
-        File gribName = new File("/test-documents/gdas1.forecmwf.2014062612.grib2");
-		
-		metadata.set(Metadata.RESOURCE_NAME_KEY, gribName.getName());
-	    InputStream stream = GribParser.class.getResourceAsStream("/test-documents/gdas1.forecmwf.2014062612.grib2");
+        InputStream stream = GribParser.class.getResourceAsStream("/test-documents/gdas1.forecmwf.2014062612.grib2");
 	    
         try {
             parser.parse(stream, handler, metadata, new ParseContext());
         } finally {
             stream.close();
         }
-        
         assertNotNull(metadata);
-        
         String content = handler.toString();
         assertTrue(content.contains("dimensions:")); 
         assertTrue(content.contains("variables:"));    
