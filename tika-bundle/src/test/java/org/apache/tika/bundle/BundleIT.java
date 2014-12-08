@@ -32,11 +32,16 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.inject.Inject;
+
+import junit.framework.Assert;
+
 import org.apache.tika.Tika;
 import org.apache.tika.config.ServiceLoader;
 import org.apache.tika.config.TikaConfig;
 import org.apache.tika.detect.DefaultDetector;
 import org.apache.tika.detect.Detector;
+import org.apache.tika.exception.TikaException;
 import org.apache.tika.metadata.Metadata;
 import org.apache.tika.parser.ParseContext;
 import org.apache.tika.parser.Parser;
@@ -46,27 +51,38 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ops4j.pax.exam.CoreOptions;
 import org.ops4j.pax.exam.Option;
-import org.ops4j.pax.exam.junit.Configuration;
+//import org.ops4j.pax.exam.junit.Configuration;
+import org.ops4j.pax.exam.Configuration;
+import org.ops4j.pax.exam.junit.PaxExam;
+import org.ops4j.pax.exam.spi.reactors.ExamReactorStrategy;
+import org.ops4j.pax.exam.spi.reactors.PerClass;
 import org.ops4j.pax.exam.junit.JUnit4TestRunner;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.xml.sax.ContentHandler;
+import org.xml.sax.SAXException;
 
-@RunWith( JUnit4TestRunner.class )
+//@RunWith( JUnit4TestRunner.class )
+@RunWith(PaxExam.class)
+@ExamReactorStrategy(PerClass.class)
 public class BundleIT {
     private final File TARGET = new File("target");
+    
+    @Inject
+    private BundleContext bc;
     
     @Configuration
     public Option[] configuration() throws IOException, URISyntaxException {
         File base = new File(TARGET, "test-bundles");
         return CoreOptions.options(
                 junitBundles(),
+                bundle(new File(base, "commons-logging.jar").toURI().toURL().toString()),
                 bundle(new File(base, "tika-core.jar").toURI().toURL().toString()),
                 bundle(new File(base, "tika-bundle.jar").toURI().toURL().toString()));
     }
     
     @Test
-    public void testBundleLoaded(BundleContext bc) throws Exception {
+    public void testBundleLoaded() throws Exception {
         boolean hasCore = false, hasBundle = false;
         for (Bundle b : bc.getBundles()) {
             if ("org.apache.tika.core".equals(b.getSymbolicName())) {
@@ -83,7 +99,7 @@ public class BundleIT {
     }
     
     @Test
-    public void testBundleDetection(BundleContext bc) throws Exception {
+    public void testBundleDetection() throws Exception {
         Tika tika = new Tika();
 
         // Simple type detection
@@ -93,17 +109,21 @@ public class BundleIT {
 
     @Ignore // TODO Fix this test
     @Test
-    public void testBundleSimpleText(BundleContext bc) throws Exception {
+    public void testBundleSimpleText() throws Exception {
         Tika tika = new Tika();
         
         // Simple text extraction
         String xml = tika.parseToString(new File("pom.xml"));
         assertTrue(xml.contains("tika-bundle"));
+       
     }
     
-    @Ignore // TODO Fix this test
+
+	
+
+	@Ignore // TODO Fix this test
     @Test
-    public void testBundleDetectors(BundleContext bc) throws Exception {
+    public void testBundleDetectors() throws Exception {
         // Get the raw detectors list
         // TODO Why is this not finding the detector service resource files?
         TestingServiceLoader loader = new TestingServiceLoader();
@@ -131,7 +151,7 @@ public class BundleIT {
     }
     
     @Test
-    public void testBundleParsers(BundleContext bc) throws Exception {
+    public void testBundleParsers() throws Exception {
         TikaConfig tika = new TikaConfig();
 
         // TODO Implement as with Detectors
@@ -139,7 +159,7 @@ public class BundleIT {
     
     @Ignore // TODO Fix this test
     @Test
-    public void testTikaBundle(BundleContext bc) throws Exception {
+    public void testTikaBundle() throws Exception {
         Tika tika = new Tika();
 
         // Package extraction

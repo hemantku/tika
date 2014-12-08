@@ -18,9 +18,9 @@ package org.apache.tika.parser.internal;
 
 import java.util.Properties;
 
-import org.apache.tika.detect.DefaultDetector;
+import org.apache.tika.config.TikaConfig;
+import org.apache.tika.parser.AutoDetectParser;
 import org.apache.tika.detect.Detector;
-import org.apache.tika.parser.DefaultParser;
 import org.apache.tika.parser.Parser;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
@@ -33,13 +33,14 @@ public class Activator implements BundleActivator {
     private ServiceRegistration parserService;
 
     public void start(BundleContext context) throws Exception {
+    	TikaConfig config = new TikaConfig(Activator.class.getClassLoader());
         detectorService = context.registerService(
                 Detector.class.getName(),
-                new DefaultDetector(Activator.class.getClassLoader()),
+                config.getDetector(),
                 new Properties());
         parserService = context.registerService(
                 Parser.class.getName(),
-                new DefaultParser(Activator.class.getClassLoader()),
+                new AutoDetectParser(config),
                 new Properties());
     }
 

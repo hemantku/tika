@@ -27,9 +27,11 @@
       <outputDirectory/>
       <outputFileNameMapping>${artifact.artifactId}.jar</outputFileNameMapping>
       <includes>
+      	<include>commons-logging:commons-logging</include>
         <include>org.apache.tika:tika-core</include>
         <include>org.apache.tika:tika-bundle</include>
       </includes>
+       <scope>test</scope>
     </dependencySet>
   </dependencySets>
 </assembly>
