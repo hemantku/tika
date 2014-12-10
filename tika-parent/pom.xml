@@ -50,7 +50,7 @@
   </issueManagement>
 
   <repositories>
-     <repository>
+     <!-- <repository>
         <id>unidata-releases</id>
         <url>http://artifacts.unidata.ucar.edu/content/repositories/unidata-releases/</url>
         <name>Unidata Releases Repo</name>
@@ -60,7 +60,7 @@
         <releases>
           <enabled>true</enabled>
         </releases>
-      </repository>
+      </repository> -->
     </repositories>
    <mailingLists>
     <mailingList>

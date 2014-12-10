@@ -144,7 +144,7 @@
               boilerpipe, rome,
               apache-mime4j-core, apache-mime4j-dom,
               jhighlight, java-libpst,
-              netcdf, jcip-annotations, jmatio
+              netcdf4, jcip-annotations, jmatio, com.google.inject, jna
             </Embed-Dependency>
             <Embed-Transitive>true</Embed-Transitive>
             <Bundle-DocURL>${project.url}</Bundle-DocURL>
